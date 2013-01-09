@@ -15,7 +15,7 @@ public class XP_TileEntityMagnet extends TileEntity {
 	public double beamDepth = 0.0D;
 	public static final double maxBeamDepth = 1.0D;
 	
-	public static double[] beamDepthIndicatorLevels = new double[] {0.15D, 0.95D};
+	private static double[] __beamDepthIndicatorLevels = new double[] {0.15D, 0.95D};
 	
 	// Maps shifted indices of affected items to constants representing effects.
 	// This determines not only what happens to EntityItems in the world, but also armor worn by other entities.
@@ -23,10 +23,12 @@ public class XP_TileEntityMagnet extends TileEntity {
 	public static final byte itemEffectFloat = 0;
 	public static final byte itemEffectBecomeDangerous = 1;
 	
-	public static final String nbtTagnameBeamDepth    = "xpLen";
-	
-	private static XP_BlockMagnet __blockMagnet = mod_XPMagnet.blockMagnet;	
 	private static final int __magnetItemDelayBeforeCanPickup = 5;
+
+	private static final String __nbtTagnameBeamDepth    = "xpLen";
+
+	private static XP_BlockMagnet __blockMagnet = mod_XPMagnet.blockMagnet;
+	
 	private static Random __rand = new Random();
 	
 	/******************
@@ -42,7 +44,6 @@ public class XP_TileEntityMagnet extends TileEntity {
 		this.xCoord = i;
 		this.yCoord = j;
 		this.zCoord = k;
-		
 	}
 	
 	// Constructor used on server when reading a saved TileEntity from NBT
@@ -178,13 +179,13 @@ public class XP_TileEntityMagnet extends TileEntity {
 	@Override // TileEntity
 	public void readFromNBT(NBTTagCompound nbt) {
 		super.readFromNBT(nbt);
-		this.beamDepth = nbt.getDouble(nbtTagnameBeamDepth);
+		this.beamDepth = nbt.getDouble(__nbtTagnameBeamDepth);
 	}
 	
 	@Override // TileEntity
 	public void writeToNBT(NBTTagCompound nbt) {
 		super.writeToNBT(nbt);
-		nbt.setDouble(nbtTagnameBeamDepth, this.beamDepth);
+		nbt.setDouble(__nbtTagnameBeamDepth, this.beamDepth);
 	}
 	
 	
@@ -195,8 +196,8 @@ public class XP_TileEntityMagnet extends TileEntity {
 	private int __prevPowerLevel = -1;
 	
 	private void __updateBlockPowerLevel() {
-		int powerLevel = (this.beamDepth < beamDepthIndicatorLevels[0]) ?
-		                 0 : (this.beamDepth < beamDepthIndicatorLevels[1]) ?
+		int powerLevel = (this.beamDepth < __beamDepthIndicatorLevels[0]) ?
+		                 0 : (this.beamDepth < __beamDepthIndicatorLevels[1]) ?
 		                 1 : 2;
 		
 		if (powerLevel != this.__prevPowerLevel) {
@@ -292,6 +293,9 @@ public class XP_TileEntityMagnet extends TileEntity {
 	 * Affecting Entities *
 	 **********************/
 	
+	private static final double __floatSlowFactorLateral  = 0.60D;
+	private static final double __floatSlowFactorVertical = 0.75D; 
+	
 	private static final int[]    __armorSlotsToAffect          = new int[]    {2,3};
 	private static final float[]  __wornMetalStripChancesBySlot = new float[]  {-0.0F, -0.0F, 0.036F, 0.012F};
 	private static final double[] __wornMetalSlowFactorsByCount = new double[] {1.0D, 0.09D, 0.04D, 0.04D, 0.04D};
@@ -334,10 +338,11 @@ public class XP_TileEntityMagnet extends TileEntity {
 	private void __liftItem(EntityItem e) {
 		e.delayBeforeCanPickup = __magnetItemDelayBeforeCanPickup;
 		
-		e.motionX *= 0.60D;
-		e.motionY *= 0.75D;
-		e.motionZ *= 0.60D;
+		e.motionX *= __floatSlowFactorLateral;
+		e.motionY *= __floatSlowFactorVertical;
+		e.motionZ *= __floatSlowFactorLateral;
 		
+		// Attract item to center
 		e.motionX += (this.getBeamCenterX() - e.posX) * 0.02D;
 		e.motionY += 0.005D;
 		e.motionZ += (this.getBeamCenterZ() - e.posZ) * 0.02D;
