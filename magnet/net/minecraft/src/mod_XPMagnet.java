@@ -110,23 +110,27 @@ public class mod_XPMagnet extends BaseMod {
 		int k = data.readInt();
 		int id = data.readByte();
 
-		TileEntity tileEnt = null;
+		TileEntity tileEntToSpawn = null;
 		TileEntity oldTileEnt = world.getBlockTileEntity(i, j, k);
 		
 		if (id == this.tileEntIdMagnet) {
 			XP_TileEntityMagnet tileEntMagnet;
-			// If the tile entity is already there, keep it there. Else, create it.
-			tileEntMagnet = (oldTileEnt instanceof XP_TileEntityMagnet) ? (XP_TileEntityMagnet)oldTileEnt
-			                                                            : new XP_TileEntityMagnet(i, j, k);
-			// In any case, update the tile entity with the magnet state data.
+			
+			// If the tile entity is already there, keep it there. Else, create and spawn it.
+			if (oldTileEnt instanceof XP_TileEntityMagnet) {
+				tileEntMagnet = (XP_TileEntityMagnet)oldTileEnt;
+			} else {
+				tileEntToSpawn = tileEntMagnet = new XP_TileEntityMagnet(i, j, k);
+			}
+			
+			// In any case, update the tile entity with magnet state data.
 			tileEntMagnet.readMagnetData(data);
-			tileEnt = tileEntMagnet;
 		} else {
 			// TODO: Unrecognized id
 		}
 		
-		if (tileEnt != null) {
-			world.setBlockTileEntity(i, j, k, tileEnt);
+		if (tileEntToSpawn != null) {
+			world.setBlockTileEntity(i, j, k, tileEntToSpawn);
 		}
 		
 	}
