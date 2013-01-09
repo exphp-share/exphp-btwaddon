@@ -1,0 +1,10 @@
+# Files I probably didn't make myself
+*.tmp
+*.bak
+
+# Windows crap
+Thumbs.db
+Desktop.ini
+
+# Mac crap
+.DS_Store

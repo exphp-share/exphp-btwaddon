@@ -12,8 +12,7 @@ public class XP_BlockMagnet extends BlockContainer implements FCIBlockMechanical
 	private XP_I3DBlock __3DRenderState = new XP_3DBlockRenderState();
 	
 	// Metadata bits are, from lowest to highest:
-	// Server: MechanicalInput  **UNUSED**  **UNUSED**  **UNUSED**
-	// Client: MechanicalInput  **UNUSED**  PowerLevel-PowerLevel
+	//    MechanicalInput  **UNUSED**  PowerLevel-PowerLevel
 	private static final int __flagMechInput = 1;
 	private static final int __flagPowerLevelOffset = 2;
 	private static final int __flagPowerLevelMask   = 12;
