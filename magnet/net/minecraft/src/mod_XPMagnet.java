@@ -26,7 +26,7 @@ public class mod_XPMagnet extends BaseMod {
 	public static final int magTerrainMagnetBottom   = 4; // and 5, 6
 	
 	// Render/Model IDs
-	public static int rendIdMagnet;
+	public static int rendId3dBlock;
 	
 	
 	public mod_XPMagnet() {
@@ -52,7 +52,7 @@ public class mod_XPMagnet extends BaseMod {
 		
 		mc.renderEngine.getTexture(this.magTerrainFilename);
 
-		rendIdMagnet = ModLoader.getUniqueBlockModelID(this, false);
+		rendId3dBlock = ModLoader.getUniqueBlockModelID(this, true);
 		
 		ModLoader.registerPacketChannel(this, this.chanSpawnEntity);
 		ModLoader.registerPacketChannel(this, this.chanTileEntity);
@@ -77,10 +77,17 @@ public class mod_XPMagnet extends BaseMod {
 	
 	@Override // BaseMod
 	public boolean renderWorldBlock(RenderBlocks renderer, IBlockAccess world, int i, int j, int k, Block block, int renderType) {
-		if (renderType == this.rendIdMagnet) {
-			return blockMagnet.renderMagnetIn3D(renderer, world, i, j, k);
+		if (renderType == this.rendId3dBlock && block instanceof XP_I3DBlock) {
+			return ((XP_I3DBlock)block).render3DWorldBlock(renderer, world, i, j, k);
 		} else {
 			return false;
+		}
+	}
+	
+	@Override // BaseMod
+	public void renderInvBlock(RenderBlocks renderer, Block block, int metadata, int renderType) {
+		if (renderType == this.rendId3dBlock && block instanceof XP_I3DBlock) {
+			((XP_I3DBlock)block).render3DInventoryBlock(renderer, metadata);
 		}
 	}
 	

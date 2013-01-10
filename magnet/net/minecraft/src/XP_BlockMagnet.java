@@ -7,9 +7,11 @@ import java.util.Random;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 
+import org.lwjgl.opengl.GL11;
+
 public class XP_BlockMagnet extends BlockContainer implements FCIBlockMechanical, FCIBlock, ITextureProvider, XP_I3DBlock {
 	
-	private XP_I3DBlock __3DRenderState = new XP_3DBlockRenderState();
+	private XP_3DBlockRender __3DRenderState = new XP_3DBlockRender(this);
 	
 	// Metadata bits are, from lowest to highest:
 	//    MechanicalInput  **UNUSED**  PowerLevel-PowerLevel
@@ -239,12 +241,12 @@ public class XP_BlockMagnet extends BlockContainer implements FCIBlockMechanical
 	
 	@Override // Block
 	public int getRenderType() {
-		return mod_XPMagnet.rendIdMagnet; 
+		return mod_XPMagnet.rendId3dBlock; 
 	}
 	
 	// An attempt at rendering the block with a hole on the bottom so that items
 	//  don't appear to clip into it as they bob up and down.
-	public boolean renderMagnetIn3D(RenderBlocks renderer, IBlockAccess world, int i, int j, int k) {
+	public boolean render3DWorldBlock(RenderBlocks renderer, IBlockAccess world, int i, int j, int k) {
 		
 		int metadata = world.getBlockMetadata(i,j,k);
 		
@@ -252,48 +254,100 @@ public class XP_BlockMagnet extends BlockContainer implements FCIBlockMechanical
 		int texTop = this.getBlockTextureFromSideAndMetadata(1, metadata);
 		int texSide = this.getBlockTextureFromSideAndMetadata(2, metadata);
 		
-		XP_UtilRender.render3DBlockTopFace(renderer, this, i, j, k, texTop);
+		// Outer faces
 		
 		renderer.setRenderMinMax(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
 		
+		this.setNoSidesToRender();
+		
+		if (!world.isBlockOpaqueCube(i, j+1, k)) {
+			this.addSideToRender(faceTop);
+		}
 		if (!world.isBlockOpaqueCube(i-1, j, k)) {
-			XP_UtilRender.render3DBlockNorthFace(renderer, this, i, j, k, texSide);
+			this.addSideToRender(faceN);
 		}
 		if (!world.isBlockOpaqueCube(i+1, j, k)) {
-			XP_UtilRender.render3DBlockSouthFace(renderer, this, i, j, k, texSide);
+			this.addSideToRender(faceS);
 		}
 		if (!world.isBlockOpaqueCube(i, j, k-1)) {
-			XP_UtilRender.render3DBlockEastFace(renderer, this, i, j, k, texSide);
+			this.addSideToRender(faceE);
 		}
 		if (!world.isBlockOpaqueCube(i, j, k+1)) {
-			XP_UtilRender.render3DBlockWestFace(renderer, this, i, j, k, texSide);
+			this.addSideToRender(faceW);
 		}
 		
-		// Render all the inner bits.
+		renderer.renderStandardBlock(this, i, j, k);
 		
-		renderer.setRenderMinMax(0.0D, 0.0D, 0.0D, this.__bottomRingWidth, this.__bottomHoleDepth, 1.0D);
-		XP_UtilRender.render3DBlockBottomFace(renderer, this, i, j, k, texBottom);
-		XP_UtilRender.render3DBlockSouthFace(renderer, this, i, j, k, texSide);
+		// Render the bottom if it is visible.
 		
-		renderer.setRenderMinMax(1.0D - this.__bottomRingWidth, 0.0D, 0.0D, 1.0D, this.__bottomHoleDepth, 1.0D);
-		XP_UtilRender.render3DBlockBottomFace(renderer, this, i, j, k, texBottom);
-		XP_UtilRender.render3DBlockNorthFace(renderer, this, i, j, k, texSide);
+		if(!world.isBlockOpaqueCube(i, j-1, k)) {
+			renderer.setRenderMinMax(0.0D, 0.0D, 0.0D, this.__bottomRingWidth, this.__bottomHoleDepth, 1.0D);
+			this.setSidesToRender(new int[] {faceBot, faceS});
+			renderer.renderStandardBlock(this, i, j, k);
+			
+			renderer.setRenderMinMax(1.0D - this.__bottomRingWidth, 0.0D, 0.0D, 1.0D, this.__bottomHoleDepth, 1.0D);
+			this.setSidesToRender(new int[] {faceBot, faceN});
+			renderer.renderStandardBlock(this, i, j, k);
+			
+			renderer.setRenderMinMax(this.__bottomRingWidth, 0.0D, 0.0D, 1.0D - this.__bottomRingWidth, this.__bottomHoleDepth, this.__bottomRingWidth);
+			this.setSidesToRender(new int[] {faceBot, faceW});
+			renderer.renderStandardBlock(this, i, j, k);
+
+			renderer.setRenderMinMax(this.__bottomRingWidth, 0.0D, 1.0D - this.__bottomRingWidth, 1.0D - this.__bottomRingWidth, this.__bottomHoleDepth, 1.0D);
+			this.setSidesToRender(new int[] {faceBot, faceE});
+			renderer.renderStandardBlock(this, i, j, k);
+			
+			renderer.setRenderMinMax(this.__bottomRingWidth, this.__bottomHoleDepth, this.__bottomRingWidth, 1.0D - this.__bottomRingWidth, 1.0D, 1.0D - this.__bottomRingWidth);
+			this.setSideToRender(faceBot);
+			renderer.renderStandardBlock(this, i, j, k);
+		}
 		
-		renderer.setRenderMinMax(this.__bottomRingWidth, 0.0D, 0.0D, 1.0D - this.__bottomRingWidth, this.__bottomHoleDepth, this.__bottomRingWidth);
-		XP_UtilRender.render3DBlockBottomFace(renderer, this, i, j, k, texBottom);
-		XP_UtilRender.render3DBlockWestFace(renderer, this, i, j, k, texSide);
-		
-		renderer.setRenderMinMax(this.__bottomRingWidth, 0.0D, 1.0D - this.__bottomRingWidth, 1.0D - this.__bottomRingWidth, this.__bottomHoleDepth, 1.0D);
-		XP_UtilRender.render3DBlockBottomFace(renderer, this, i, j, k, texBottom);
-		XP_UtilRender.render3DBlockEastFace(renderer, this, i, j, k, texSide);
-		
-		renderer.setRenderMinMax(this.__bottomRingWidth, this.__bottomHoleDepth, this.__bottomRingWidth, 1.0D - this.__bottomRingWidth, 1.0D, 1.0D - this.__bottomRingWidth);
-		XP_UtilRender.render3DBlockBottomFace(renderer, this, i, j, k, texBottom);
-		
+		// Clean up
 		renderer.overrideBlockTexture = -1;
-		
 		this.setBlockBounds(0.0F, 0.0F, 0.0F, 1.0F, 1.0F, 1.0F);
+		this.setAllSidesToRender();
 		return true;
+	}
+	
+	@Override // XP_I3DBlock
+	public void render3DInventoryBlock(RenderBlocks renderer, int metadata) {
+		Tessellator tessie = Tessellator.instance;
+		
+		this.setBlockBoundsForItemRender();
+		
+		GL11.glTranslatef(-0.5F, -0.5F, -0.5F);
+		
+		tessie.startDrawingQuads();
+		tessie.setNormal(0.0F, -1.0F, 0.0F);
+		renderer.renderBottomFace((Block)this, 0.0D, 0.0D, 0.0D, this.getBlockTextureFromSideAndMetadata(0, metadata));
+		tessie.draw();
+		
+		tessie.startDrawingQuads();
+		tessie.setNormal(0.0F, 1.0F, 0.0F);
+		renderer.renderTopFace((Block)this, 0.0D, 0.0D, 0.0D, this.getBlockTextureFromSideAndMetadata(1, metadata));
+		tessie.draw();
+		
+		tessie.startDrawingQuads();
+		tessie.setNormal(0.0F, 0.0F, -1.0F);
+		renderer.renderEastFace((Block)this, 0.0D, 0.0D, 0.0D, this.getBlockTextureFromSideAndMetadata(2, metadata));
+		tessie.draw();
+		
+		tessie.startDrawingQuads();
+		tessie.setNormal(0.0F, 0.0F, 1.0F);
+		renderer.renderWestFace((Block)this, 0.0D, 0.0D, 0.0D, this.getBlockTextureFromSideAndMetadata(3, metadata));
+		tessie.draw();
+		
+		tessie.startDrawingQuads();
+		tessie.setNormal(-1.0F, 0.0F, 0.0F);
+		renderer.renderNorthFace((Block)this, 0.0D, 0.0D, 0.0D, this.getBlockTextureFromSideAndMetadata(4, metadata));
+		tessie.draw();
+		
+		tessie.startDrawingQuads();
+		tessie.setNormal(1.0F, 0.0F, 0.0F);
+		renderer.renderSouthFace((Block)this, 0.0D, 0.0D, 0.0D, this.getBlockTextureFromSideAndMetadata(5, metadata));
+		tessie.draw();
+		
+		GL11.glTranslatef(0.5F, 0.5F, 0.5F);
 	}
 	
 	@Override // ITextureProvider
@@ -304,6 +358,21 @@ public class XP_BlockMagnet extends BlockContainer implements FCIBlockMechanical
 	@Override // XP_I3DBlock
 	public void setSideToRender(int side) {
 		this.__3DRenderState.setSideToRender(side);
+	}
+	
+	@Override // XP_I3DBlock
+	public void addSideToRender(int side) {
+		this.__3DRenderState.addSideToRender(side);
+	}
+	
+	@Override // XP_I3DBlock
+	public void setSidesToRender(int[] sides) {
+		this.__3DRenderState.setSidesToRender(sides);
+	}
+	
+	@Override // XP_I3DBlock
+	public void setNoSidesToRender() {
+		this.__3DRenderState.setNoSidesToRender();
 	}
 	
 	@Override // XP_I3DBlock
