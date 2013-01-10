@@ -6,6 +6,15 @@ public class XP_EntityItem extends EntityItem {
 	}
 	
 	public XP_EntityItem(EntityItem original) {
-		super(original.worldObj, original.posX, original.posY, original.posZ, original.item);
+		this(original.worldObj, original.posX, original.posY, original.posZ, original.item);
+	}
+	
+	@Override // EntityItem
+	public void onUpdate() {
+		// TODO
+	}
+	
+	public void moveTowardsMagnet() {
+		// TODO
 	}
 }

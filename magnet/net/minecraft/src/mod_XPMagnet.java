@@ -28,6 +28,7 @@ public class mod_XPMagnet extends BaseMod {
 	// Render/Model IDs
 	public static int rendId3dBlock;
 	
+	public static XP_UtilEntitySubstitution entitySubstitution = XP_UtilEntitySubstitution.instance;
 	
 	public mod_XPMagnet() {
 		this.nameModStuff();
@@ -46,6 +47,8 @@ public class mod_XPMagnet extends BaseMod {
 	public void load() {
 		Minecraft mc = ModLoader.getMinecraftInstance();
 		
+		ModLoader.setInGameHook(this, true, false);
+		
 		ModLoader.registerBlock(blockMagnet);
 		
 		ModLoader.registerTileEntity(XP_TileEntityMagnet.class,"ExpHP: Magnet");
@@ -56,6 +59,13 @@ public class mod_XPMagnet extends BaseMod {
 		
 		ModLoader.registerPacketChannel(this, this.chanSpawnEntity);
 		ModLoader.registerPacketChannel(this, this.chanTileEntity);
+	}
+	
+	@Override // BaseMod
+	public boolean onTickInGame(float renderTicks, Minecraft mc) {
+		entitySubstitution.replaceNewEntities();
+		
+		return true;
 	}
 	
 	@Override // BaseMod
