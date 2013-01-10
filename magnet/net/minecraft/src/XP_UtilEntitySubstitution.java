@@ -15,59 +15,10 @@ public class XP_UtilEntitySubstitution {
 	 */
 	public static XP_UtilEntitySubstitution instance = new XP_UtilEntitySubstitution();
 	
-	private Method __mappingMethod;
 	private Map<Class<? extends Entity>, Class<? extends Entity>> __substitutionMap;
 	
 	private XP_UtilEntitySubstitution() {
 		this.__substitutionMap = new HashMap<Class<? extends Entity>, Class<? extends Entity>>();
-		
-		this.__mappingMethod = this.__findAddMappingMethod();
-	}
-
-	// Initialization
-	private Method __findAddMappingMethod() {
-		Method[] methods = EntityList.class.getDeclaredMethods();
-		
-		// this.__debugMethodList(methods);
-		
-		// Search the list of EntityList methods
-		int numMethods = methods.length;
-		for (int i=0; i<numMethods; ++i) {
-			Method m = methods[i];
-			Type[] paramTypes = m.getParameterTypes();
-			
-			// Find the method by looking for its return type and signature
-			if (m.getReturnType().equals(Void.TYPE)
-			    && paramTypes.length == 3
-			    && paramTypes[0] == Class.class
-			    && paramTypes[1] == String.class
-			    && paramTypes[2] == int.class) {
-				
-				// Method has been found (probably). Make it public and return it.
-				m.setAccessible(true);
-				return m;
-			}
-		}
-		
-		// Fail fast if the method signature appears to have changed.
-		throw new RuntimeException("Fail-fast mechanism triggered! No matching signature found for addMapping().");
-	}
-	
-	private void __debugMethodList(Method[] methods) {
-		System.out.println("---Printing EntityList method signatures---");
-		int numMethods = methods.length;
-		for (int i=0; i<numMethods; ++i) {
-			Method m = methods[i];
-			System.out.print(String.format("[%d]%s %s(", i, m.getReturnType().toString(), m.getName()));
-			
-			Type[] paramTypes = m.getParameterTypes();
-			int numParams = paramTypes.length; 
-			for (int j=0; j<numParams-1; ++j) {
-				System.out.print(String.format("%s, ", paramTypes[j].toString()));
-			}
-			System.out.print(paramTypes[numParams-1].toString() + ")");
-			System.out.println();
-		}
 	}
 	
 	/**
@@ -78,16 +29,8 @@ public class XP_UtilEntitySubstitution {
 	 * @param id The index associated with oldClass in EntityList
 	 */
 	public void addSubstitution(Class<? extends Entity> oldClass, Class<? extends Entity> newClass, String name, int id) {
-		try {
-			// Map the new class to load from NBT
-			this.__mappingMethod.invoke(null, oldClass, name, id);
-			
-		// Rethrow compiler exceptions at runtime
-		} catch(InvocationTargetException e) {
-			throw new RuntimeException(e);
-		} catch(IllegalAccessException e)    {
-			throw new RuntimeException(e);
-		}
+		// Instantiate the new entity in place of the original when reading from NBT.
+		ModLoader.registerEntityID(newClass, name, id);
 		
 		// Map the class to be converted immediately following spawn.
 		this.__substitutionMap.put(oldClass, newClass);
