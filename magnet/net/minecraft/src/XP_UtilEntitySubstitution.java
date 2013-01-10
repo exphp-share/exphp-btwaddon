@@ -71,16 +71,16 @@ public class XP_UtilEntitySubstitution {
 	}
 	
 	/**
-	 * Maps entities of a certain class to be replaced by entities
+	 * Maps entities of a certain class to be replaced by entities of another class.
 	 * @param oldClass Class of entities to replace
 	 * @param newClass Class of entities to use in their place
-	 * @param name 
-	 * @param id
+	 * @param name The string associated with oldClass in EntityList
+	 * @param id The index associated with oldClass in EntityList
 	 */
 	public void addSubstitution(Class<? extends Entity> oldClass, Class<? extends Entity> newClass, String name, int id) {
 		try {
 			// Map the new class to load from NBT
-			this.__mappingMethod.invoke(oldClass, name, id);
+			this.__mappingMethod.invoke(null, oldClass, name, id);
 			
 		// Rethrow compiler exceptions at runtime
 		} catch(InvocationTargetException e) {
