@@ -147,10 +147,10 @@ public class XP_BlockMagnet extends BlockContainer implements FCIBlockMechanical
 	public void Overpower(World world, int i, int j, int k) {
 		int c;
 		for (c = 0; c < 5; ++c) FCUtilsItem.EjectSingleItemWithRandomOffset(world, i, j, k, Block.stone.blockID, 0);
-		for (c = 0; c < 3; ++c) FCUtilsItem.EjectSingleItemWithRandomOffset(world, i, j, k, mod_FCBetterThanWolves.fcSteel.shiftedIndex, 0);
+		for (c = 0; c < 3; ++c) FCUtilsItem.EjectSingleItemWithRandomOffset(world, i, j, k, mod_FCBetterThanWolves.fcSteel.itemID, 0);
 		for (c = 0; c < 2; ++c) FCUtilsItem.EjectSingleItemWithRandomOffset(world, i, j, k, Block.torchRedstoneActive.blockID, 0);
-		for (c = 0; c < 2; ++c) FCUtilsItem.EjectSingleItemWithRandomOffset(world, i, j, k, mod_FCBetterThanWolves.fcPolishedLapis.shiftedIndex, 0);
-		for (c = 0; c < 1; ++c) FCUtilsItem.EjectSingleItemWithRandomOffset(world, i, j, k, mod_FCBetterThanWolves.fcGear.shiftedIndex, 0);
+		for (c = 0; c < 2; ++c) FCUtilsItem.EjectSingleItemWithRandomOffset(world, i, j, k, mod_FCBetterThanWolves.fcPolishedLapis.itemID, 0);
+		for (c = 0; c < 1; ++c) FCUtilsItem.EjectSingleItemWithRandomOffset(world, i, j, k, mod_FCBetterThanWolves.fcGear.itemID, 0);
 		
 		world.playAuxSFX(mod_FCBetterThanWolves.m_iMechanicalDeviceExplodeAuxFXID, i, j, k, 0);
 		world.setBlockWithNotify(i, j, k, 0);
@@ -256,7 +256,7 @@ public class XP_BlockMagnet extends BlockContainer implements FCIBlockMechanical
 		
 		// Outer faces
 		
-		renderer.setRenderMinMax(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
+		renderer.setRenderBounds(0.0D, 0.0D, 0.0D, 1.0D, 1.0D, 1.0D);
 		
 		this.setNoSidesToRender();
 		
@@ -281,23 +281,23 @@ public class XP_BlockMagnet extends BlockContainer implements FCIBlockMechanical
 		// Render the bottom if it is visible.
 		
 		if(!world.isBlockOpaqueCube(i, j-1, k)) {
-			renderer.setRenderMinMax(0.0D, 0.0D, 0.0D, this.__bottomRingWidth, this.__bottomHoleDepth, 1.0D);
+			renderer.setRenderBounds(0.0D, 0.0D, 0.0D, this.__bottomRingWidth, this.__bottomHoleDepth, 1.0D);
 			this.setSidesToRender(new int[] {faceBot, faceS});
 			renderer.renderStandardBlock(this, i, j, k);
 			
-			renderer.setRenderMinMax(1.0D - this.__bottomRingWidth, 0.0D, 0.0D, 1.0D, this.__bottomHoleDepth, 1.0D);
+			renderer.setRenderBounds(1.0D - this.__bottomRingWidth, 0.0D, 0.0D, 1.0D, this.__bottomHoleDepth, 1.0D);
 			this.setSidesToRender(new int[] {faceBot, faceN});
 			renderer.renderStandardBlock(this, i, j, k);
 			
-			renderer.setRenderMinMax(this.__bottomRingWidth, 0.0D, 0.0D, 1.0D - this.__bottomRingWidth, this.__bottomHoleDepth, this.__bottomRingWidth);
+			renderer.setRenderBounds(this.__bottomRingWidth, 0.0D, 0.0D, 1.0D - this.__bottomRingWidth, this.__bottomHoleDepth, this.__bottomRingWidth);
 			this.setSidesToRender(new int[] {faceBot, faceW});
 			renderer.renderStandardBlock(this, i, j, k);
 
-			renderer.setRenderMinMax(this.__bottomRingWidth, 0.0D, 1.0D - this.__bottomRingWidth, 1.0D - this.__bottomRingWidth, this.__bottomHoleDepth, 1.0D);
+			renderer.setRenderBounds(this.__bottomRingWidth, 0.0D, 1.0D - this.__bottomRingWidth, 1.0D - this.__bottomRingWidth, this.__bottomHoleDepth, 1.0D);
 			this.setSidesToRender(new int[] {faceBot, faceE});
 			renderer.renderStandardBlock(this, i, j, k);
 			
-			renderer.setRenderMinMax(this.__bottomRingWidth, this.__bottomHoleDepth, this.__bottomRingWidth, 1.0D - this.__bottomRingWidth, 1.0D, 1.0D - this.__bottomRingWidth);
+			renderer.setRenderBounds(this.__bottomRingWidth, this.__bottomHoleDepth, this.__bottomRingWidth, 1.0D - this.__bottomRingWidth, 1.0D, 1.0D - this.__bottomRingWidth);
 			this.setSideToRender(faceBot);
 			renderer.renderStandardBlock(this, i, j, k);
 		}

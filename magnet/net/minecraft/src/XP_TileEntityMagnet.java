@@ -69,47 +69,47 @@ public class XP_TileEntityMagnet extends TileEntity {
 			itemEffects.put(Block.rail.blockID, itemEffectFloat);
 			itemEffects.put(Block.railDetector.blockID, itemEffectFloat);
 			itemEffects.put(Block.railPowered.blockID, itemEffectFloat);
-			itemEffects.put(Item.ingotIron.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.ingotGold.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.swordSteel.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.swordGold.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.pickaxeSteel.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.pickaxeGold.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.axeSteel.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.axeGold.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.shovelSteel.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.shovelGold.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.hoeSteel.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.hoeGold.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.helmetSteel.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.helmetGold.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.plateSteel.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.plateGold.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.legsSteel.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.legsGold.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.bootsSteel.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.bootsGold.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.minecartEmpty.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.minecartCrate.shiftedIndex, itemEffectFloat);
-			itemEffects.put(Item.minecartPowered.shiftedIndex, itemEffectFloat);
+			itemEffects.put(Item.ingotIron.itemID, itemEffectFloat);
+			itemEffects.put(Item.ingotGold.itemID, itemEffectFloat);
+			itemEffects.put(Item.swordSteel.itemID, itemEffectFloat);
+			itemEffects.put(Item.swordGold.itemID, itemEffectFloat);
+			itemEffects.put(Item.pickaxeSteel.itemID, itemEffectFloat);
+			itemEffects.put(Item.pickaxeGold.itemID, itemEffectFloat);
+			itemEffects.put(Item.axeSteel.itemID, itemEffectFloat);
+			itemEffects.put(Item.axeGold.itemID, itemEffectFloat);
+			itemEffects.put(Item.shovelSteel.itemID, itemEffectFloat);
+			itemEffects.put(Item.shovelGold.itemID, itemEffectFloat);
+			itemEffects.put(Item.hoeSteel.itemID, itemEffectFloat);
+			itemEffects.put(Item.hoeGold.itemID, itemEffectFloat);
+			itemEffects.put(Item.helmetSteel.itemID, itemEffectFloat);
+			itemEffects.put(Item.helmetGold.itemID, itemEffectFloat);
+			itemEffects.put(Item.plateSteel.itemID, itemEffectFloat);
+			itemEffects.put(Item.plateGold.itemID, itemEffectFloat);
+			itemEffects.put(Item.legsSteel.itemID, itemEffectFloat);
+			itemEffects.put(Item.legsGold.itemID, itemEffectFloat);
+			itemEffects.put(Item.bootsSteel.itemID, itemEffectFloat);
+			itemEffects.put(Item.bootsGold.itemID, itemEffectFloat);
+			itemEffects.put(Item.minecartEmpty.itemID, itemEffectFloat);
+			itemEffects.put(Item.minecartCrate.itemID, itemEffectFloat);
+			itemEffects.put(Item.minecartPowered.itemID, itemEffectFloat);
 			itemEffects.put(mod_FCBetterThanWolves.fcCauldron.blockID, itemEffectFloat);
 			
 			itemEffects.put(mod_FCBetterThanWolves.fcSoulforgedSteelBlock.blockID, itemEffectBecomeDangerous);
-			itemEffects.put(mod_FCBetterThanWolves.fcSteel.shiftedIndex, itemEffectBecomeDangerous);
-			itemEffects.put(mod_FCBetterThanWolves.fcRefinedPickAxe.shiftedIndex, itemEffectBecomeDangerous);
-			itemEffects.put(mod_FCBetterThanWolves.fcRefinedShovel.shiftedIndex, itemEffectBecomeDangerous);
-			itemEffects.put(mod_FCBetterThanWolves.fcRefinedHoe.shiftedIndex, itemEffectBecomeDangerous);
-			itemEffects.put(mod_FCBetterThanWolves.fcBattleAxe.shiftedIndex, itemEffectBecomeDangerous);
-			itemEffects.put(mod_FCBetterThanWolves.fcMattock.shiftedIndex, itemEffectBecomeDangerous);
-			itemEffects.put(mod_FCBetterThanWolves.fcRefinedAxe.shiftedIndex, itemEffectBecomeDangerous);
-			itemEffects.put(mod_FCBetterThanWolves.fcRefinedSword.shiftedIndex, itemEffectBecomeDangerous);
-			itemEffects.put(mod_FCBetterThanWolves.fcArmorPlate.shiftedIndex, itemEffectBecomeDangerous);
-			itemEffects.put(mod_FCBetterThanWolves.fcPlateHelm.shiftedIndex, itemEffectBecomeDangerous);
-			itemEffects.put(mod_FCBetterThanWolves.fcPlateBreastPlate.shiftedIndex, itemEffectBecomeDangerous);
-			itemEffects.put(mod_FCBetterThanWolves.fcPlateLeggings.shiftedIndex, itemEffectBecomeDangerous);
-			itemEffects.put(mod_FCBetterThanWolves.fcPlateBoots.shiftedIndex, itemEffectBecomeDangerous);
-			itemEffects.put(mod_FCBetterThanWolves.fcBroadheadArrowhead.shiftedIndex, itemEffectBecomeDangerous);
-			itemEffects.put(mod_FCBetterThanWolves.fcBroadheadArrow.shiftedIndex, itemEffectBecomeDangerous);
+			itemEffects.put(mod_FCBetterThanWolves.fcSteel.itemID, itemEffectBecomeDangerous);
+			itemEffects.put(mod_FCBetterThanWolves.fcRefinedPickAxe.itemID, itemEffectBecomeDangerous);
+			itemEffects.put(mod_FCBetterThanWolves.fcRefinedShovel.itemID, itemEffectBecomeDangerous);
+			itemEffects.put(mod_FCBetterThanWolves.fcRefinedHoe.itemID, itemEffectBecomeDangerous);
+			itemEffects.put(mod_FCBetterThanWolves.fcBattleAxe.itemID, itemEffectBecomeDangerous);
+			itemEffects.put(mod_FCBetterThanWolves.fcMattock.itemID, itemEffectBecomeDangerous);
+			itemEffects.put(mod_FCBetterThanWolves.fcRefinedAxe.itemID, itemEffectBecomeDangerous);
+			itemEffects.put(mod_FCBetterThanWolves.fcRefinedSword.itemID, itemEffectBecomeDangerous);
+			itemEffects.put(mod_FCBetterThanWolves.fcArmorPlate.itemID, itemEffectBecomeDangerous);
+			itemEffects.put(mod_FCBetterThanWolves.fcPlateHelm.itemID, itemEffectBecomeDangerous);
+			itemEffects.put(mod_FCBetterThanWolves.fcPlateBreastPlate.itemID, itemEffectBecomeDangerous);
+			itemEffects.put(mod_FCBetterThanWolves.fcPlateLeggings.itemID, itemEffectBecomeDangerous);
+			itemEffects.put(mod_FCBetterThanWolves.fcPlateBoots.itemID, itemEffectBecomeDangerous);
+			itemEffects.put(mod_FCBetterThanWolves.fcBroadheadArrowhead.itemID, itemEffectBecomeDangerous);
+			itemEffects.put(mod_FCBetterThanWolves.fcBroadheadArrow.itemID, itemEffectBecomeDangerous);
 		}
 	}
 	
@@ -310,7 +310,7 @@ public class XP_TileEntityMagnet extends TileEntity {
 		for (Entity e : entities) {
 			if (e instanceof EntityItem) {
 				EntityItem eItem = (EntityItem)e;
-				int itemId = eItem.item.itemID;
+				int itemId = eItem.getEntityItem().itemID;
 				
 				Byte effect = itemEffects.get(itemId);
 				
